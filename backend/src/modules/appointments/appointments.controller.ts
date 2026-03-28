@@ -29,7 +29,7 @@ export const getMyAppointments = async (req: AuthRequest, res: Response, next: N
 export const getDoctorAppointments = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const appointments = await service.getDoctorAppointmentsService(
-      req.params.doctorId,
+      req.params.doctorId as string,
       req.query.date as string
     );
     res.status(200).json({ success: true, data: { appointments } });
@@ -39,7 +39,7 @@ export const getDoctorAppointments = async (req: AuthRequest, res: Response, nex
 export const cancelAppointment = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const appointment = await service.cancelAppointmentService(
-      req.params.id,
+      req.params.id as string,
       req.user!.id,
       req.user!.role,
       req.body.cancelReason
