@@ -14,9 +14,15 @@ FROM httpd:2.4-alpine AS production
 # Configuration Apache
 RUN sed -i \
     -e 's/^#\(LoadModule rewrite_module modules\/mod_rewrite.so\)/\1/' \
+    -e 's/^#\(LoadModule proxy_module modules\/mod_proxy.so\)/\1/' \
+    -e 's/^#\(LoadModule proxy_http_module modules\/mod_proxy_http.so\)/\1/' \
     -e 's/^Listen 80/Listen 5173/' \
     -e '/<Directory "\/usr\/local\/apache2\/htdocs">/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' \
     /usr/local/apache2/conf/httpd.conf
+
+# Ajouter la directive de proxy à la fin de httpd.conf
+RUN echo "ProxyPass /api http://backend:5000/api" >> /usr/local/apache2/conf/httpd.conf && \
+    echo "ProxyPassReverse /api http://backend:5000/api" >> /usr/local/apache2/conf/httpd.conf
 
 # Copier le build
 COPY --from=builder /app/dist /usr/local/apache2/htdocs/
