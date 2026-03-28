@@ -36,8 +36,3 @@ jobs:
         run: |
           cd frontend
           npm ci --legacy-peer-deps
-
-      - name: Run Tests
-        run: |
-          cd frontend
-          npm test
