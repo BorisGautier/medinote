@@ -1,9 +1,10 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema, CallbackWithoutResultAndOptionalError } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 export type UserRole = 'patient' | 'doctor' | 'hospital_admin' | 'super_admin';
 
 export interface IUser extends Document {
+  id: string;
   email: string;
   password: string;
   role: UserRole;
@@ -38,7 +39,7 @@ const UserSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-UserSchema.pre('save', async function (next) {
+UserSchema.pre('save', async function (next: CallbackWithoutResultAndOptionalError) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();

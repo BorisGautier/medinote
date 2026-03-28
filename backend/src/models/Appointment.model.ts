@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Types } from 'mongoose';
+import mongoose, { Document, Schema, Types, CallbackWithoutResultAndOptionalError } from 'mongoose';
 
 export type AppointmentStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'no_show';
 export type CancelledBy = 'patient' | 'doctor' | 'admin';
@@ -44,7 +44,7 @@ const AppointmentSchema = new Schema<IAppointment>(
 );
 
 // Générer automatiquement la référence
-AppointmentSchema.pre('save', async function (next) {
+AppointmentSchema.pre('save', async function (next: CallbackWithoutResultAndOptionalError) {
   if (this.isNew && !this.reference) {
     const year = new Date().getFullYear();
     const count = await mongoose.model('Appointment').countDocuments();
