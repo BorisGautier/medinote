@@ -31,13 +31,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies
         run: |
           cd frontend
-          npm ci --omit=optional
+          npm ci --omit=optional --legacy-peer-deps
 
       - name: Run Tests
         run: |
