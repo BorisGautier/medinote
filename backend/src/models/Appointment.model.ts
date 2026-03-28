@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Types, CallbackWithoutResultAndOptionalError } from 'mongoose';
+import mongoose, { Document, Schema, Types } from 'mongoose';
 
 export type AppointmentStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'no_show';
 export type CancelledBy = 'patient' | 'doctor' | 'admin';
@@ -44,13 +44,12 @@ const AppointmentSchema = new Schema<IAppointment>(
 );
 
 // Générer automatiquement la référence
-AppointmentSchema.pre('save', async function (next: CallbackWithoutResultAndOptionalError) {
+AppointmentSchema.pre('save', async function () {
   if (this.isNew && !this.reference) {
     const year = new Date().getFullYear();
     const count = await mongoose.model('Appointment').countDocuments();
     this.reference = `RDV-${year}-${String(count + 1).padStart(5, '0')}`;
   }
-  next();
 });
 
 // Index composé : empêche double-réservation même créneau/médecin
