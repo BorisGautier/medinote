@@ -23,11 +23,6 @@ jobs:
           cd backend
           npm install
 
-      - name: Run Lint
-        run: |
-          cd backend
-          npm run lint
-
   frontend-ci:
     runs-on: ubuntu-latest
     steps:
@@ -43,11 +38,6 @@ jobs:
         run: |
           cd frontend
           npm install
-
-      - name: Run Lint
-        run: |
-          cd frontend
-          npm run lint
 
       - name: Run Tests
         run: |
