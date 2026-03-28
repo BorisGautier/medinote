@@ -5,7 +5,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --omit=optional
 
 COPY tsconfig.json ./
 COPY src ./src
@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y dumb-init && rm -rf /var/lib/apt/lists/
 
 # Copier uniquement les dépendances de production
 COPY package*.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm ci --omit=dev --omit=optional && npm cache clean --force
 
 # Copier le build
 COPY --from=builder /app/dist ./dist
