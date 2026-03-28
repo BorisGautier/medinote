@@ -103,9 +103,11 @@ const start = async () => {
   });
 };
 
-start().catch((err) => {
-  logger.error('Failed to start server:', err);
-  process.exit(1);
-});
+if (require.main === module) {
+  start().catch((err) => {
+    logger.error('Failed to start server:', err);
+    process.exit(1);
+  });
+}
 
 export default app;

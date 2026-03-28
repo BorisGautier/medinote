@@ -9,8 +9,6 @@ const createLimiter = (
   message: string,
   prefix: string
 ) => {
-  const redisClient = getRedisClient();
-
   return rateLimit({
     windowMs,
     max,
@@ -18,7 +16,10 @@ const createLimiter = (
     standardHeaders: true,
     legacyHeaders: false,
     store: new RedisStore({
-      sendCommand: (...args: string[]) => redisClient.call(args[0], ...args.slice(1)) as any,
+      sendCommand: async (...args: string[]) => {
+        const redisClient = getRedisClient();
+        return redisClient.call(args[0], ...args.slice(1)) as any;
+      },
       prefix: `rl:${prefix}:`,
     }),
     handler: (_req: Request, res: Response) => {
