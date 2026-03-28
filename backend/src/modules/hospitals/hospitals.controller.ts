@@ -17,7 +17,7 @@ export const getHospitals = async (req: Request, res: Response, next: NextFuncti
 
 export const getHospital = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const hospital = await service.getHospitalByIdService(req.params.id);
+    const hospital = await service.getHospitalByIdService(req.params.id as string);
     res.status(200).json({ success: true, data: { hospital } });
   } catch (err) { next(err); }
 };
@@ -25,7 +25,7 @@ export const getHospital = async (req: Request, res: Response, next: NextFunctio
 export const getHospitalDoctors = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const result = await service.getHospitalDoctorsService(
-      req.params.id,
+      req.params.id as string,
       req.query.specialtyId as string,
       Number(req.query.page) || 1,
       Number(req.query.limit) || 12
@@ -43,14 +43,14 @@ export const createHospital = async (req: Request, res: Response, next: NextFunc
 
 export const updateHospital = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const hospital = await service.updateHospitalService(req.params.id, req.body);
+    const hospital = await service.updateHospitalService(req.params.id as string, req.body);
     res.status(200).json({ success: true, data: { hospital } });
   } catch (err) { next(err); }
 };
 
 export const deleteHospital = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    await service.deleteHospitalService(req.params.id);
+    await service.deleteHospitalService(req.params.id as string);
     res.status(200).json({ success: true, message: 'Hôpital désactivé.' });
   } catch (err) { next(err); }
 };

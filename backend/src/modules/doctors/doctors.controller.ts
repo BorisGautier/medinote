@@ -17,7 +17,7 @@ export const getDoctors = async (req: Request, res: Response, next: NextFunction
 
 export const getDoctor = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const doctor = await service.getDoctorByIdService(req.params.id);
+    const doctor = await service.getDoctorByIdService(req.params.id as string);
     res.status(200).json({ success: true, data: { doctor } });
   } catch (err) { next(err); }
 };
@@ -27,7 +27,7 @@ export const getDoctorAvailability = async (req: Request, res: Response, next: N
     const startDate = req.query.startDate ? new Date(req.query.startDate as string) : new Date();
     const endDate = req.query.endDate ? new Date(req.query.endDate as string) : addDays(new Date(), 7);
     const result = await service.getDoctorAvailabilityService(
-      req.params.id,
+      req.params.id as string,
       startDate,
       endDate,
       req.query.hospitalId as string
@@ -45,14 +45,14 @@ export const createDoctor = async (req: Request, res: Response, next: NextFuncti
 
 export const updateDoctor = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const doctor = await service.updateDoctorService(req.params.id, req.body);
+    const doctor = await service.updateDoctorService(req.params.id as string, req.body);
     res.status(200).json({ success: true, data: { doctor } });
   } catch (err) { next(err); }
 };
 
 export const setAvailability = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const avails = await service.setAvailabilityService(req.params.id, req.body.availabilities);
+    const avails = await service.setAvailabilityService(req.params.id as string, req.body.availabilities);
     res.status(200).json({ success: true, data: { availabilities: avails } });
   } catch (err) { next(err); }
 };
