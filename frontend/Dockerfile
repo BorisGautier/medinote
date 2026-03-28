@@ -1,9 +1,11 @@
-# ─── Build stage ──────────────────────────────────────────
-FROM node:20-alpine AS builder
+FROM node:22-slim AS builder
 WORKDIR /app
 
+# Installer build-essential pour les dépendances natives si besoin
+RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
+
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --omit=optional
 
 COPY . .
 RUN npm run build
