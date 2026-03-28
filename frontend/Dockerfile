@@ -9,17 +9,24 @@ COPY . .
 RUN npm run build
 
 # ─── Production stage ─────────────────────────────────────
-FROM nginx:1.25-alpine AS production
+FROM httpd:2.4-alpine AS production
+
+# Configuration Apache
+RUN sed -i \
+    -e 's/^#\(LoadModule rewrite_module modules\/mod_rewrite.so\)/\1/' \
+    -e 's/^Listen 80/Listen 5173/' \
+    -e '/<Directory "\/usr\/local\/apache2\/htdocs">/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' \
+    /usr/local/apache2/conf/httpd.conf
 
 # Copier le build
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/local/apache2/htdocs/
 
-# Config Nginx pour SPA (React Router)
-COPY nginx-spa.conf /etc/nginx/conf.d/default.conf
+# Copier le .htaccess pour le routage SPA
+COPY .htaccess /usr/local/apache2/htdocs/
 
-EXPOSE 80
+EXPOSE 5173
 
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost:80/health || exit 1
+  CMD wget --quiet --tries=1 --spider http://localhost:5173/ || exit 1
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["httpd-foreground"]
