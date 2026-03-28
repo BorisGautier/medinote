@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, CallbackWithoutResultAndOptionalError } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 export type UserRole = 'patient' | 'doctor' | 'hospital_admin' | 'super_admin';
@@ -39,10 +39,9 @@ const UserSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-UserSchema.pre('save', async function (next: CallbackWithoutResultAndOptionalError) {
-  if (!this.isModified('password')) return next();
+UserSchema.pre('save', async function () {
+  if (!this.isModified('password')) return;
   this.password = await bcrypt.hash(this.password, 12);
-  next();
 });
 
 UserSchema.methods.comparePassword = async function (password: string): Promise<boolean> {
