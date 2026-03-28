@@ -1,0 +1,26 @@
+name: Demande de Fonctionnalité
+description: Proposez une nouvelle idée pour MediNote !
+title: "[FEAT] "
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problème ou Besoin
+      description: Pourquoi cette fonctionnalité est-elle nécessaire ? Un besoin frustrant pour les utilisateurs ?
+      placeholder: Quel problème essayez-vous de résoudre ?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution Proposée
+      description: Une description claire et concise de ce que vous aimeriez qu'il se passe.
+      placeholder: Quelle est l'idée géniale ?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexte Supplémentaire
+      description: Ajoutez d'autres contextes ou des captures d'écran sur la demande de fonctionnalité ici.

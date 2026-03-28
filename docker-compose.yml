@@ -40,9 +40,7 @@ services:
 
   # ─── Backend API ─────────────────────────────────────────
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: europe-west1-docker.pkg.dev/${GCP_PROJECT_ID:-anne-ai-assistant}/medinote-repo/medinote-backend:latest
     container_name: medinote_backend
     restart: unless-stopped
     ports:
@@ -81,9 +79,7 @@ services:
 
   # ─── Frontend PWA (Apache) ────────────────────────────────
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: europe-west1-docker.pkg.dev/${GCP_PROJECT_ID:-anne-ai-assistant}/medinote-repo/medinote-frontend:latest
     container_name: medinote_frontend
     restart: unless-stopped
     ports:

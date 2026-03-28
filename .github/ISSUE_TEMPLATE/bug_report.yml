@@ -1,0 +1,39 @@
+name: Rapport de Bug
+description: Signalez une erreur ou un dysfonctionnement de l'application.
+title: "[BUG] "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de vouloir améliorer MediNote ! Merci de remplir les informations ci-dessous.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description du Bug
+      description: Un résumé clair et concis de ce qu'est le bug.
+      placeholder: Quel est le problème ?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Étapes pour Reproduire
+      description: Étapes précises pour reproduire le comportement.
+      placeholder: |
+        1. Aller sur le formulaire de connexion
+        2. Saisir un email invalide
+        3. Voir l'erreur s'afficher
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportement Attendu
+      description: Une description claire de ce que vous attendiez.
+  - type: input
+    id: environment
+    attributes:
+      label: Environnement
+      description: Navigateur, version de l'OS, etc.
+      placeholder: Chrome 120 sur Windows 11
